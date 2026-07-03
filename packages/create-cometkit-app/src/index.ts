@@ -19,7 +19,7 @@ import postgres from "postgres";
 import prompts from "prompts";
 import * as tar from "tar";
 
-const DEFAULT_REPO = "your-github-user/cometkit"; // change after publishing the kit repo
+const DEFAULT_REPO = "sobarir/comet-kit";
 const DEFAULT_REF = "main";
 const MIN_PG_MAJOR = 17;
 const MIN_NODE_MAJOR = 20;
