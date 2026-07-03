@@ -175,6 +175,28 @@ function run(cmd: string, args: string[], cwd: string): boolean {
   return result.status === 0;
 }
 
+/**
+ * git is a real executable on every platform (never a .cmd/.ps1 shim), so
+ * it never needs a shell wrapper. Skipping the shell avoids a Windows bug
+ * where cmd.exe re-splits multi-word array arguments (e.g. a commit
+ * message) at whitespace, corrupting them into extra positional args.
+ */
+function runGit(args: string[], cwd: string): boolean {
+  const result = spawnSync("git", args, { cwd, stdio: "inherit", shell: false });
+  return result.status === 0;
+}
+
+/** Commit message via -F <tempfile> — immune to any shell-quoting issue. */
+function gitCommit(cwd: string, message: string): boolean {
+  const file = join(tmpdir(), `cometkit-commit-${Date.now()}.txt`);
+  writeFileSync(file, message + "\n");
+  try {
+    return runGit(["-c", "user.name=create-cometkit-app", "-c", "user.email=cli@cometkit.dev", "commit", "-q", "-F", file], cwd);
+  } finally {
+    rmSync(file, { force: true });
+  }
+}
+
 async function main() {
   const opts = parseArgs(process.argv.slice(2));
   log(pc.bold("\n☄ create-cometkit-app"));
@@ -347,15 +369,18 @@ async function main() {
   // ---- git -------------------------------------------------------------------
   if (!opts.skipGit) {
     step("Git");
-    if (
-      run("git", ["init", "-b", "main"], target) &&
-      run("git", ["add", "-A"], target) &&
-      run("git", ["-c", "user.name=create-cometkit-app", "-c", "user.email=cli@cometkit.dev", "commit", "-q", "-m", "Initial commit from create-cometkit-app"], target)
-    ) {
-      ok("Repository initialized with initial commit");
-    } else {
-      deferred("git init failed", `cd ${name} && git init && git add -A && git commit -m "init"`);
-    }
+    const initialized =
+      runGit(["init", "-b", "main"], target) &&
+      // Repo-local only (doesn't touch the user's global git config).
+      // Skill files are downloaded with mixed line endings; without this,
+      // Windows' default autocrlf=true prints a CRLF warning per file on
+      // every `git add`. .gitattributes (in the template) does the real
+      // normalization work; this just silences the noise around it.
+      runGit(["config", "core.autocrlf", "false"], target) &&
+      runGit(["add", "-A"], target) &&
+      gitCommit(target, "Initial commit from create-cometkit-app");
+    if (initialized) ok("Repository initialized with initial commit");
+    else deferred("git init failed", `cd ${name} && git init && git add -A && git commit -m "init"`);
   }
 
   // ---- summary ---------------------------------------------------------------

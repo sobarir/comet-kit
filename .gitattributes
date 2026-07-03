@@ -21,6 +21,10 @@
 # Husky hooks have no file extension — force LF explicitly.
 .husky/*    text eol=lf
 
+# Windows-only scripts, if any get added later, keep native CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
 # Lockfiles: text, LF, but mark as generated so diffs are collapsed in reviews.
 bun.lock    text eol=lf linguist-generated
 

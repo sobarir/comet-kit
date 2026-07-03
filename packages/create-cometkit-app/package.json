@@ -1,11 +1,11 @@
 {
   "name": "create-cometkit-app",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Scaffold a CometKit project: Turborepo + NestJS/Fastify + Drizzle (ULID) + Next.js, wired for the Comet spec-driven agent workflow on Claude Code and Google Antigravity.",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "create-cometkit-app": "dist/index.js"
+    "create-cometkit-app": "./dist/index.js"
   },
   "files": [
     "dist"
