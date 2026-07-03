@@ -1,0 +1,33 @@
+{
+  "name": "create-cometkit-app",
+  "version": "0.1.0",
+  "description": "Scaffold a CometKit project: Turborepo + NestJS/Fastify + Drizzle (ULID) + Next.js, wired for the Comet spec-driven agent workflow on Claude Code and Google Antigravity.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "create-cometkit-app": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node -e \"const f='dist/index.js';const fs=require('fs');const s=fs.readFileSync(f,'utf8');if(!s.startsWith('#!'))fs.writeFileSync(f,'#!/usr/bin/env node\\n'+s);fs.chmodSync(f,0o755)\"",
+    "dev": "tsc -p tsconfig.build.json --watch --preserveWatchOutput",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src"
+  },
+  "dependencies": {
+    "picocolors": "^1.1.1",
+    "postgres": "^3.4.7",
+    "prompts": "^2.4.2",
+    "tar": "^7.5.7"
+  },
+  "devDependencies": {
+    "@types/node": "^25.7.1",
+    "@types/prompts": "^2.4.9",
+    "typescript": "^6.0.3"
+  }
+}

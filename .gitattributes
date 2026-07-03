@@ -1,0 +1,39 @@
+# Line-ending normalization. The repository stores text files with LF; this
+# keeps the kit consistent across Windows, macOS, and Linux/CI. Without this,
+# Git on Windows may convert files to CRLF, which breaks the shell scripts and
+# git hooks (bash fails on CRLF with "bad interpreter: ...^M").
+
+# Default: treat as text, normalize to LF in the repo.
+* text=auto eol=lf
+
+# Files that MUST stay LF (they're executed by bash/node and break with CRLF).
+*.sh        text eol=lf
+*.mjs       text eol=lf
+*.cjs       text eol=lf
+*.js        text eol=lf
+*.ts        text eol=lf
+*.tsx       text eol=lf
+*.json      text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+*.md        text eol=lf
+
+# Husky hooks have no file extension — force LF explicitly.
+.husky/*    text eol=lf
+
+# Lockfiles: text, LF, but mark as generated so diffs are collapsed in reviews.
+bun.lock    text eol=lf linguist-generated
+
+# Binary files — never convert or diff.
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.webp      binary
+*.woff      binary
+*.woff2     binary
+*.ttf       binary
+*.eot       binary
+*.pdf       binary
+*.zip       binary

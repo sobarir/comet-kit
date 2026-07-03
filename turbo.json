@@ -1,0 +1,54 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**",
+        ".next/**",
+        "!.next/cache/**"
+      ],
+      "env": [
+        "NEXT_PUBLIC_API_URL"
+      ]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {},
+    "typecheck": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "db:generate": {
+      "cache": false,
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "db:migrate": {
+      "cache": false,
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "db:seed": {
+      "cache": false,
+      "dependsOn": [
+        "^build"
+      ]
+    }
+  },
+  "globalEnv": [
+    "NODE_ENV"
+  ]
+}

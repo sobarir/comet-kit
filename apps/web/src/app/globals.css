@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+/*
+ * CometKit design tokens - "launch pad at dawn"
+ * Palette: porcelain paper, space-navy ink, ultramarine comet head,
+ * amber comet tail. Fonts are loaded via <link> in layout.tsx so the
+ * build never needs network access (swap to next/font if you prefer
+ * self-hosting).
+ */
+:root {
+  --background: #fafbfd;
+  --foreground: #1b2130;
+  --card: #ffffff;
+  --card-foreground: #1b2130;
+  --popover: #ffffff;
+  --popover-foreground: #1b2130;
+  --muted: #eef1f7;
+  --muted-foreground: #5a6377;
+  --border: #e3e7f0;
+  --input: #d9deea;
+  --primary: #2b3fe0;
+  --primary-foreground: #f7f8ff;
+  --secondary: #eef1f7;
+  --secondary-foreground: #1b2130;
+  --accent: #f0b429;
+  --accent-foreground: #241a03;
+  --destructive: #c92a3f;
+  --destructive-foreground: #fff5f6;
+  --ring: #2b3fe0;
+  --radius: 0.5rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-ring: var(--ring);
+
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, monospace;
+
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 4px);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Single orchestrated page-load reveal; disabled under reduced motion. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise {
+  animation: rise 0.6s ease-out both;
+}
+
+.rise-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.rise-delay-2 {
+  animation-delay: 0.16s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise,
+  .rise-delay-1,
+  .rise-delay-2 {
+    animation: none;
+  }
+}
