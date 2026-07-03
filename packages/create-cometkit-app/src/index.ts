@@ -393,7 +393,14 @@ async function checkAndCreateDatabase(dbUrl: string, allowOld: boolean) {
   const adminUrl = new URL(dbUrl);
   adminUrl.pathname = "/postgres";
 
-  const admin = postgres(adminUrl.toString(), { max: 1, connect_timeout: 5 });
+  const admin = postgres(adminUrl.toString(), {
+    max: 1,
+    connect_timeout: 5,
+    // Server NOTICEs (e.g. collation-version warnings after an OS libc
+    // update) are informational, not errors — don't dump them to the
+    // console mid-scaffold. Real failures still throw and are caught below.
+    onnotice: () => undefined,
+  });
   try {
     const rows = await admin.unsafe<{ server_version: string }[]>("SHOW server_version");
     const version = rows[0]?.server_version ?? "0";
