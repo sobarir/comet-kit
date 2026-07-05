@@ -131,6 +131,13 @@ state machine is the memory.
 | `bun run db:migrate`   | Apply migrations (always before seed)         |
 | `bun run db:seed`      | Seed demo accounts                            |
 
+## Troubleshooting
+
+Seeing a non-blocking **hook error** (e.g. `comet-hook-guard.sh: No such file or
+directory` on Windows, or `codegraph: command not found`)? See
+[`docs/comet-hook-troubleshooting.md`](docs/comet-hook-troubleshooting.md) for
+the one-line fixes.
+
 ---
 
 ## Reference API (what ships in the scaffold)
